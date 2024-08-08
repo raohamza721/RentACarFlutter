@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rentacar/DashBoardScreen.dart';
+import 'package:rentacar/pre_login_screen.dart';
 
 class IntroductionSlidesScreen extends StatelessWidget{
   const IntroductionSlidesScreen({super.key});
@@ -56,7 +57,7 @@ class IntroductionSlidesScreen extends StatelessWidget{
         done: const Text("Done"),
         onDone: (){
 
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (Context) => DashBoardScreen(),));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (Context) => PreLoginScreen(),));
         },
 
 
