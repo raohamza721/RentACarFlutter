@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:rentacar/DashBoardScreen.dart';
-import 'package:rentacar/LoginScreen.dart';
+import 'package:rentacar/dash_board_screen.dart';
+import 'package:rentacar/login_screen.dart';
 
 class PreLoginScreen extends StatefulWidget {
   const PreLoginScreen({super.key});
@@ -30,6 +30,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
       });
       return null;
     }
+
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(

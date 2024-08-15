@@ -1,7 +1,4 @@
-
-
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileScreen extends StatefulWidget{
@@ -17,14 +14,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Details'),
+        title: const Text('Profile Details'),
         backgroundColor: Colors.teal,
         actions: [
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             onPressed: () {
               // Handle edit profile action
-              print('Edit Profile tapped');
+              if (kDebugMode) {
+                print('Edit Profile tapped');
+              }
             },
           ),
         ],
@@ -46,7 +45,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               '+123 456 7890',
               style: TextStyle(
@@ -54,9 +53,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Divider(thickness: 1, color: Colors.grey[300]),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -68,7 +67,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at purus in leo facilisis gravida. '
                   'Nullam vehicula magna at dui pulvinar, a eleifend metus fermentum. Vivamus non ex et eros elementum lacinia. '
@@ -79,15 +78,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               textAlign: TextAlign.justify,
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 // Handle edit profile action
-                print('Edit Profile button tapped');
+                if (kDebugMode) {
+                  print('Edit Profile button tapped');
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),

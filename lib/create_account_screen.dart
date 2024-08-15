@@ -3,7 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rentacar/LoginScreen.dart';
+import 'package:rentacar/add_user_details_screen.dart';
+import 'package:rentacar/login_screen.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -26,16 +27,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match!')),
+          const SnackBar(content: Text("Password Doesn't Match ")),
       );
       return;
     }
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+          email: email, password: password);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Account created successfully!')),
@@ -44,7 +43,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       // Navigate to LoginScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        MaterialPageRoute(builder: (context) => AddUserDetailsScreen()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

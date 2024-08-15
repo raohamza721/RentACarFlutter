@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:rentacar/DashBoardScreen.dart';
+import 'package:rentacar/dash_board_screen.dart';
 import 'package:rentacar/pre_login_screen.dart';
 
 class IntroductionSlidesScreen extends StatelessWidget{

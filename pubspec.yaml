@@ -44,6 +44,11 @@ dependencies:
   lottie: ^2.1.0
   font_awesome_flutter: ^10.7.0
   animate_do: ^3.1.2
+  image_picker: ^1.0.8
+  firebase_storage: ^11.6.9
+  cloud_firestore: ^4.15.8
+  firebase_app_check: ^0.2.1+17
+
 
 
 
