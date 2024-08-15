@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rentacar/CreateAccountScreen.dart';
-import 'package:rentacar/DashBoardScreen.dart';
-import 'package:rentacar/ForgotPasswordScreen.dart';
+import 'package:rentacar/create_account_screen.dart';
+import 'package:rentacar/dash_board_screen.dart';
+import 'package:rentacar/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

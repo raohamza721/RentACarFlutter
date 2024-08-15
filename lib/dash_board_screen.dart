@@ -67,7 +67,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
           // Categories or Filters
           const Text(
-            'Categories',
+            'Dashboard',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8.0),
@@ -76,10 +76,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildCategoryCard('SUVs', FontAwesomeIcons.car),
-              _buildCategoryCard('Sedans', FontAwesomeIcons.carSide),
-              _buildCategoryCard('Luxury', FontAwesomeIcons.carAlt),
-              _buildCategoryCard('Electric', FontAwesomeIcons.bolt),
+              _buildCategoryCard('My Cars Ads', FontAwesomeIcons.car),
+              _buildCategoryCard('Bookings', FontAwesomeIcons.carSide),
+              _buildCategoryCard('Rent Requests', FontAwesomeIcons.carRear),
+              _buildCategoryCard('FAQs', FontAwesomeIcons.bolt),
             ],
           ),
           const SizedBox(height: 16.0),
@@ -96,11 +96,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Bookings'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Message'),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notification'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
         selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+
       ),
     );
   }
