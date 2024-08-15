@@ -76,7 +76,7 @@ class _AddUserDetailsScreenState extends State<AddUserDetailsScreen> {
         'name': name,
         'phone': phone,
         'about': about,
-        'profileImage': profileImageUrl ?? '',
+        'profileImageUrl': profileImageUrl ?? '',
         'timestamp': FieldValue.serverTimestamp(),
       });
 

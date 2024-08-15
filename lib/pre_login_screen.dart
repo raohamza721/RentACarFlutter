@@ -31,20 +31,30 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
       return null;
     }
 
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser
+        .authentication;
+
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    final UserCredential userCredential = await _auth.signInWithCredential(credential);
+    final UserCredential userCredential = await _auth.signInWithCredential(
+        credential);
 
-    setState(() {
-      _isLoading = false; // Stop loading
-    });
+    final User? user = userCredential.user;
 
-    return userCredential.user;
+    if (user != null) {
+      String userId = user.uid; // Get the userID
+
+
+      setState(() {
+        _isLoading = false; // Stop loading
+      });
+
+      return userCredential.user;
+    }
   }
 
   @override
@@ -73,7 +83,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                       // Navigate to DashBoardScreen
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const DashBoardScreen()),
+                        MaterialPageRoute(builder: (context) => DashBoardScreen(userId: '',)),
                       );
                     }
                   },

@@ -33,19 +33,28 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
 
+      User? user = userCredential.user;
+
       setState(() {
         _isLoading = false; // Hide loading indicator
       });
 
-      // Navigate to DashboardScreen after successful login
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const DashBoardScreen();
-      }));
+      if (user != null) {
+        String userId = user.uid; // Get the userID
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login successful!')),
-      );
+        // Navigate to DashboardScreen and pass the userID
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashBoardScreen(userId: userId),
+          ),
+        );
+
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login successful!')),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         _isLoading = false; // Hide loading indicator
@@ -66,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,8 +171,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: const Color.fromRGBO(143, 148, 251, 1)),
-                          boxShadow: [
-                            const BoxShadow(
+                          boxShadow: const [
+                            BoxShadow(
                               color: Color.fromRGBO(143, 148, 251, .2),
                               blurRadius: 20.0,
                               offset: Offset(0, 10),
@@ -223,9 +231,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Center(
                             child: _isLoading
                                 ? const CircularProgressIndicator(color: Colors.white) // Show loading spinner if logging in
-                                : const Text(
-                              "Login",
+                                : const Text( "Login",
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+
                             ),
                           ),
                         ),

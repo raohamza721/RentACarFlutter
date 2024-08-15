@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
-
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -15,22 +14,75 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _aboutController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  File? _profileImage;
 
   @override
   void initState() {
     super.initState();
-    // Initialize with current user data
-    _nameController.text = 'John Doe';
-    _phoneController.text = '+123 456 7890';
-    _aboutController.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at purus in leo facilisis gravida.';
+    _loadUserData();
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    _aboutController.dispose();
-    super.dispose();
+  Future<void> _loadUserData() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        var userData = userDoc.data() as Map<String, dynamic>;
+        setState(() {
+          _nameController.text = userData['name'] ?? '';
+          _phoneController.text = userData['phone'] ?? '';
+          _aboutController.text = userData['about'] ?? '';
+          // Optionally, load the profile image URL if available
+        });
+      }
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      String imageUrl = '';
+      if (_profileImage != null) {
+        imageUrl = await _uploadImage(_profileImage!);
+      }
+
+      await _firestore.collection('users').doc(user.uid).update({
+        'name': _nameController.text.trim(),
+        'phone': _phoneController.text.trim(),
+        'about': _aboutController.text.trim(),
+        'profilePhotoUrl': imageUrl,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile updated!')));
+      Navigator.pop(context); // Go back to Profile Details screen
+    }
+  }
+
+  Future<String> _uploadImage(File image) async {
+    try {
+      String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+      Reference storageRef = _storage.ref().child('profile_images').child(fileName);
+      UploadTask uploadTask = storageRef.putFile(image);
+
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print('Error uploading image: $e');
+      return '';
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
   }
 
   @override
@@ -47,15 +99,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundImage: AssetImage('assets/profile_image.png'),
-                  child: IconButton(
-                    icon: Icon(Icons.camera_alt, color: Colors.white, size: 30),
-                    onPressed: () {
-                      // Handle change profile image action
-                    },
-                  ),
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage: _profileImage != null
+                          ? FileImage(_profileImage!)
+                          : AssetImage('assets/images/profile.png') as ImageProvider,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: IconButton(
+                        icon: Icon(Icons.camera_alt, color: Colors.white, size: 30),
+                        onPressed: _pickImage,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 10),
@@ -87,13 +147,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle save profile action
-                    print('Profile saved');
-                    Navigator.pop(context); // Go back to Profile Details screen
-                  },
+                  onPressed: _updateProfile,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.teal,
+                    backgroundColor: Colors.teal,
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),

@@ -1,8 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:rentacar/add_user_details_screen.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:rentacar/dash_board_screen.dart';
 import 'package:rentacar/login_screen.dart';
 
 
@@ -29,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  DashBoardScreen()//
+      home:  LoginScreen()//
     );
   }
 }
