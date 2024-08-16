@@ -28,7 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = _passwordController.text.trim();
 
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -75,83 +76,54 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF3E3E3E), Color(0xFF2B2B2B)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Column(
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: 400,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/background.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                      left: 30,
-                      width: 80,
-                      height: 200,
-                      child:  FadeInUp(
-                        duration: const Duration(seconds: 1),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/key.png'),
-                            ),
-                          ),
+                      top: 80,
+                      left: 20,
+                      right: 20,
+                      child: Card(
+                        color: const Color(0xFF424242),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 140,
-                      width: 80,
-                      height: 150,
-                      child: FadeInUp(
-                        duration: const Duration(milliseconds: 1200),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/key.png'),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 40,
-                      top: 70,
-                      width: 100,
-                      height: 150,
-                      child: FadeInUp(
-                        duration: const Duration(milliseconds: 1300),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/prelogincar.png'),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      child: FadeInUp(
-                        duration: const Duration(milliseconds: 1600),
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 50),
-                          child: const Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
+                        elevation: 8,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: <Widget>[
+                              const Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 20),
+                              Image.asset(
+                                'assets/images/profile.png',
+                                width: 100,
+                                height: 100,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -168,12 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.black87,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: const Color.fromRGBO(143, 148, 251, 1)),
+                          border: Border.all(color: const Color(0xFF3E3E3E)),
                           boxShadow: const [
                             BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .2),
+                              color: Colors.black26,
                               blurRadius: 20.0,
                               offset: Offset(0, 10),
                             ),
@@ -184,14 +156,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
-                                border: Border(bottom: BorderSide(color: Color.fromRGBO(143, 148, 251, 1))),
+                                border: Border(
+                                  bottom: BorderSide(color: Color(0xFF3E3E3E)),
+                                ),
                               ),
                               child: TextField(
                                 controller: _emailController,
+                                style: const TextStyle(color: Colors.white70),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter Your Email",
-                                  hintStyle: TextStyle(color: Colors.grey[700]),
+                                  hintStyle: TextStyle(color: Colors.grey[600]),
                                 ),
                               ),
                             ),
@@ -200,10 +175,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: TextField(
                                 controller: _passwordController,
                                 obscureText: true,
+                                style: const TextStyle(color: Colors.white70),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Password",
-                                  hintStyle: TextStyle(color: Colors.grey[700]),
+                                  hintStyle: TextStyle(color: Colors.grey[600]),
                                 ),
                               ),
                             ),
@@ -212,43 +188,39 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // Login Button with Loading Indicator
                     FadeInUp(
                       duration: const Duration(milliseconds: 1900),
                       child: GestureDetector(
-                        onTap: _login, // Call _login when the button is pressed
+                        onTap: _login,
                         child: Container(
                           height: 50,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             gradient: const LinearGradient(
-                              colors: [
-                                Color.fromRGBO(143, 148, 251, 1),
-                                Color.fromRGBO(143, 148, 251, .6),
-                              ],
+                              colors: [Color(0xFF6D6D6D), Color(0xFF3E3E3E)],
                             ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black45,
+                                blurRadius: 10,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
                           ),
                           child: Center(
                             child: _isLoading
-                                ? const CircularProgressIndicator(color: Colors.white) // Show loading spinner if logging in
-                                : const Text( "Login",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-
+                                ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                                : const Text(
+                              "Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 70),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
-                      },
-                      child: FadeInUp(
-                        duration: const Duration(milliseconds: 2000),
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1)),
                         ),
                       ),
                     ),
@@ -257,11 +229,33 @@ class _LoginScreenState extends State<LoginScreen> {
                       duration: const Duration(milliseconds: 2000),
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CreateAccountScreen()));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPasswordScreen()),
+                          );
+                        },
+                        child: const Text(
+                          "Forgot Password?",
+                          style: TextStyle(color: Color(0xFF6D6D6D)),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 70),
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 2000),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (
+                                    context) => const CreateAccountScreen()),
+                          );
                         },
                         child: const Text(
                           "Didn't have an account? Register",
-                          style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1)),
+                          style: TextStyle(color: Color(0xFF6D6D6D)),
                         ),
                       ),
                     ),

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rentacar/ad_your_car_form.dart';
+import 'package:rentacar/bookings.dart';
+import 'package:rentacar/my_cars_ads.dart';
+import 'package:rentacar/rent_a_car_requests.dart';
+import 'package:rentacar/setting.dart';
 import 'user_profile_screen.dart';
 import 'home_screen.dart';
+
 
 class DashBoardScreen extends StatefulWidget {
   final String userId;
@@ -19,11 +25,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   final List<Widget> _widgetOptions = <Widget>[
 
-    Dashboard(),
-    MessagesScreenContent(),
-    HomeScreen(),
-    NotificationsScreenContent(),
-    Setting(),
+    const Dashboard(),
+    const MessagesScreenContent(),
+    const HomeScreen(),
+    const NotificationsScreenContent(),
+    const Setting(),
 
   ];
 
@@ -75,7 +81,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               radius: 24,
               backgroundImage: userData?['profilePhotoUrl'] != null
                   ? NetworkImage(userData!['profilePhotoUrl'])
-                  : AssetImage('assets/images/profile.png') as ImageProvider,
+                  : const AssetImage('assets/images/profile.png') as ImageProvider,
               // Replace with actual image asset or network image
             ),
           ),
@@ -92,21 +98,40 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home,), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
       ),
+
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(
+        onPressed: () {
+          // Handle the action when the FAB is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddCarForm(userId: '',), // Navigate to your desired screen
+            ),
+          );
+        },
+
+        child: const Icon(Icons.add),
+      )
+          : null, // Only show FAB on the Dashboard screen (index 0)
     );
   }
 }
 
 class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return
+      ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
         // Welcome Message
@@ -140,8 +165,8 @@ class Dashboard extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: [
               _buildCarCard('Car 1', 'assets/images/car1.png'),
-              _buildCarCard('Car 2', 'assets/images/car1.png'),
-              _buildCarCard('Car 3', 'assets/images/car1.png'),
+              _buildCarCard('Car 2', 'assets/images/car2.png'),
+              _buildCarCard('Car 3', 'assets/images/car3.png'),
             ],
           ),
         ),
@@ -158,10 +183,28 @@ class Dashboard extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            _buildCategoryCard('My Cars Ads', FontAwesomeIcons.car),
-            _buildCategoryCard('Bookings', FontAwesomeIcons.carSide),
-            _buildCategoryCard('Rent Requests', FontAwesomeIcons.carRear),
-            _buildCategoryCard('FAQs', FontAwesomeIcons.bolt),
+            InkWell(onTap: (){
+
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyCarsAds(userId: '', )));
+            },
+                child: _buildCategoryCard('My Car', FontAwesomeIcons.car)),
+            InkWell(onTap: ( ){
+
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => booking_screen()));
+
+            },
+                child: _buildCategoryCard('Bookings', FontAwesomeIcons.carSide)),
+            InkWell(onTap: ( ){
+
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RentACarRequestScreen_screen()));
+
+            },
+                child: _buildCategoryCard('Rent Requests', FontAwesomeIcons.carRear)),
+            InkWell(onTap: ( ){
+
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => booking_screen()));
+
+            },child: _buildCategoryCard('FAQs', FontAwesomeIcons.bolt)),
           ],
         ),
         const SizedBox(height: 16.0),
@@ -173,8 +216,11 @@ class Dashboard extends StatelessWidget {
         ),
         const SizedBox(height: 8.0),
         _buildOfferCard('Special Deal', 'Get 20% off on SUVs!'),
-      ],
-    );
+    ],
+
+
+      );
+
   }
 
   Widget _buildCarCard(String title, String imagePath) {
@@ -233,6 +279,8 @@ class Dashboard extends StatelessWidget {
 }
 
 class MessagesScreenContent extends StatelessWidget {
+  const MessagesScreenContent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(
@@ -242,6 +290,8 @@ class MessagesScreenContent extends StatelessWidget {
 }
 
 class NotificationsScreenContent extends StatelessWidget {
+  const NotificationsScreenContent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(
@@ -250,11 +300,4 @@ class NotificationsScreenContent extends StatelessWidget {
   }
 }
 
-class Setting extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Settings Screen'),
-    );
-  }
-}
+

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rentacar/edit_profile_screen.dart';
 
+import 'dash_board_screen.dart';
+
 class UserProfileScreen extends StatefulWidget {
 
    final String userId;
@@ -62,8 +64,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(onTap: (){
+
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashBoardScreen(userId: "userId"),));
+      },
+          child: Icon(Icons.arrow_back)),
         title: const Text('Profile Details'),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
@@ -112,7 +119,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -134,7 +141,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                backgroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(
                     vertical: 15, horizontal: 30),
                 shape: RoundedRectangleBorder(

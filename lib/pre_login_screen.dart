@@ -63,9 +63,13 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
       body: Stack(
         children: [
           Container(
-            color: Colors.blueGrey, // Set the background color here
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blueGrey, Colors.grey],
+              ),
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Center the column content
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Center(
                   child: SizedBox(
@@ -73,17 +77,21 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                     width: 100,
                   ),
                 ),
-                FadeInRight(duration: const Duration(seconds: 1), child: Image.asset('assets/images/tesla_1.png')),
-                const SizedBox(height: 100), // Reduced height
+                FadeInRight(
+                  duration: const Duration(seconds: 1),
+                  child: Image.asset('assets/images/tesla_1.png'),
+                ),
+                const SizedBox(height: 100),
+                // First button
                 InkWell(
                   onTap: () async {
                     User? user = await _signInWithGoogle();
                     if (user != null) {
                       debugPrint('Sign in successful: ${user.displayName}');
-                      // Navigate to DashBoardScreen
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => DashBoardScreen(userId: '',)),
+                        MaterialPageRoute(builder: (context) =>
+                            DashBoardScreen(userId: '',)),
                       );
                     }
                   },
@@ -92,27 +100,47 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                     child: FadeInUp(
                       duration: const Duration(seconds: 1),
                       child: Card(
-                        color: Colors.white,
-                        elevation: 3,
+                        elevation: 6,
+                        // Increased elevation for a more pronounced shadow
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(
+                              15), // More rounded corners
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FaIcon(FontAwesomeIcons.google, color: Colors.red),
-                              SizedBox(width: 10), // Add space between the icon and text
-                              Text(
-                                'Login with Gmail',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: const LinearGradient(
+                              colors: [Colors.redAccent, Colors.orangeAccent],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(0, 5),
+                                blurRadius: 10,
                               ),
                             ],
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FaIcon(FontAwesomeIcons.google,
+                                    color: Colors.white),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Login with Gmail',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -120,36 +148,58 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
+                // Second button
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                   child: SizedBox(
                     width: 250,
                     child: FadeInUp(
                       duration: const Duration(seconds: 1),
                       child: Card(
-                        color: Colors.white,
-                        elevation: 3,
+                        elevation: 6,
+                        // Increased elevation for a more pronounced shadow
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(
+                              15), // More rounded corners
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FaIcon(FontAwesomeIcons.user, color: Colors.blueGrey),
-                              SizedBox(width: 10), // Add space between the icon and text
-                              Text(
-                                'Login With Username',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: const LinearGradient(
+                              colors: [Colors.blueGrey, Colors.blueAccent],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(0, 5),
+                                blurRadius: 10,
                               ),
                             ],
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FaIcon(
+                                    FontAwesomeIcons.user, color: Colors.white),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Login With Username',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -161,7 +211,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
           ),
           if (_isLoading)
             Container(
-              color: Colors.black54, // Semi-transparent background
+              color: Colors.black54,
               child: const Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:rentacar/dash_board_screen.dart';
 import 'package:rentacar/login_screen.dart';
+import 'package:rentacar/splash_screen.dart';
 
 
 
