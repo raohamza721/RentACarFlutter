@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
@@ -57,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Home'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 0;
                 });
                 Navigator.pop(context);
               },
@@ -67,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Profile'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 4;
                 });
                 Navigator.pop(context);
               },
@@ -77,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Settings'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 3;
                 });
                 Navigator.pop(context);
               },
@@ -87,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Messages'),
               onTap: () {
                 setState(() {
-                  _selectedIndex = 1;
                 });
                 Navigator.pop(context);
               },
