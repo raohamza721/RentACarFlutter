@@ -190,7 +190,7 @@ class Dashboard extends StatelessWidget {
                 child: _buildCategoryCard('My Car', FontAwesomeIcons.car)),
             InkWell(onTap: ( ){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => booking_screen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BookingScreen()));
 
             },
                 child: _buildCategoryCard('Bookings', FontAwesomeIcons.carSide)),
@@ -202,7 +202,7 @@ class Dashboard extends StatelessWidget {
                 child: _buildCategoryCard('Rent Requests', FontAwesomeIcons.carRear)),
             InkWell(onTap: ( ){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => booking_screen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BookingScreen()));
 
             },child: _buildCategoryCard('FAQs', FontAwesomeIcons.bolt)),
           ],
