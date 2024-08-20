@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'booking_form.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -209,7 +208,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Handle rent request action
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookingFormScreen(carData: carData),
+                            ),
+                          );
                         },
                         icon: const Icon(Icons.shopping_cart),
                         label: const Text('Book Now'),
@@ -219,13 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           // Handle messaging action
                         },
                         icon: const Icon(Icons.message),
-                        label: const Text('Message'),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          // Handle view profile action
-                        },
-                        icon: const Icon(Icons.person),
                         label: const Text('Message'),
                       ),
                       ElevatedButton.icon(
@@ -271,4 +268,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 }
