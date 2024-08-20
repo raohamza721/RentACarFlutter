@@ -196,7 +196,7 @@ class Dashboard extends StatelessWidget {
                 child: _buildCategoryCard('Bookings', FontAwesomeIcons.carSide)),
             InkWell(onTap: ( ){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RentACarRequestScreen_screen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RentACarRequestScreen()));
 
             },
                 child: _buildCategoryCard('Rent Requests', FontAwesomeIcons.carRear)),
