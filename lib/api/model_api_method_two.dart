@@ -26,9 +26,6 @@ class MethodTwo{
       email: json['email'],
       phone: json['phone'],
       picture: json['picture']["thumbnail"],
-
-
-
     );
   }
   }

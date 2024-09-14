@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rentacar/ad_your_car_form.dart';
 import 'package:rentacar/bookings.dart';
+import 'package:rentacar/faqs.dart';
 import 'package:rentacar/my_cars_ads.dart';
 import 'package:rentacar/rent_a_car_requests.dart';
 import 'package:rentacar/setting.dart';
@@ -12,8 +13,7 @@ import 'home_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   final String userId;
-
-  const DashBoardScreen({Key? key, required this.userId}) : super(key: key);
+   const DashBoardScreen({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<DashBoardScreen> createState() => _DashBoardScreenState();
@@ -25,7 +25,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   final List<Widget> _widgetOptions = <Widget>[
 
-    const Dashboard(),
+     Dashboard(userId: '',),
     const MessagesScreenContent(),
     const HomeScreen(),
     const NotificationsScreenContent(),
@@ -113,7 +113,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddCarForm(userId: '',), // Navigate to your desired screen
+              builder: (context) =>   AddCarForm(userId: widget.userId), // Navigate to your desired screen
             ),
           );
         },
@@ -125,9 +125,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 }
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+class Dashboard extends StatefulWidget {
+  final String userId;
+  const Dashboard({super.key, required this.userId});
 
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return
@@ -142,12 +148,15 @@ class Dashboard extends StatelessWidget {
         const SizedBox(height: 16.0),
 
         // Search Bar
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Search for cars...',
-            prefixIcon: const Icon(Icons.search),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search for cars...',
+              prefixIcon: const Icon(Icons.add),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
             ),
           ),
         ),
@@ -164,9 +173,9 @@ class Dashboard extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              _buildCarCard('Car 1', 'assets/images/car1.png'),
-              _buildCarCard('Car 2', 'assets/images/car2.png'),
-              _buildCarCard('Car 3', 'assets/images/car3.png'),
+              _buildCarCard('Land Rover', 'assets/images/car1.png'),
+              _buildCarCard('Honda', 'assets/images/car2.png'),
+              _buildCarCard('Ford', 'assets/images/car3.png'),
             ],
           ),
         ),
@@ -181,28 +190,28 @@ class Dashboard extends StatelessWidget {
         GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          physics:  const NeverScrollableScrollPhysics(),
           children: [
             InkWell(onTap: (){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyCarsAds(userId: '', )));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  MyCarsAds(userId: widget.userId )));
             },
                 child: _buildCategoryCard('My Car', FontAwesomeIcons.car)),
             InkWell(onTap: ( ){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BookingScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BookingScreen()));
 
             },
                 child: _buildCategoryCard('Bookings', FontAwesomeIcons.carSide)),
             InkWell(onTap: ( ){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RentACarRequestScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  RentACarRequestScreen(userId: widget.userId)));
 
             },
                 child: _buildCategoryCard('Rent Requests', FontAwesomeIcons.carRear)),
             InkWell(onTap: ( ){
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BookingScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FaqScreeen()));
 
             },child: _buildCategoryCard('FAQs', FontAwesomeIcons.bolt)),
           ],
@@ -217,10 +226,7 @@ class Dashboard extends StatelessWidget {
         const SizedBox(height: 8.0),
         _buildOfferCard('Special Deal', 'Get 20% off on SUVs!'),
     ],
-
-
       );
-
   }
 
   Widget _buildCarCard(String title, String imagePath) {

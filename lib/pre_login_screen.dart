@@ -31,8 +31,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
       return null;
     }
 
-    final GoogleSignInAuthentication googleAuth = await googleUser
-        .authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
 
     final AuthCredential credential = GoogleAuthProvider.credential(
@@ -87,11 +86,14 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                   onTap: () async {
                     User? user = await _signInWithGoogle();
                     if (user != null) {
-                      debugPrint('Sign in successful: ${user.displayName}');
+                      String userId = user.uid; // Capture the userId from the user object
+                      debugPrint('Sign in successful: ${user.displayName}, UserId: $userId');
+
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) =>
-                            DashBoardScreen(userId: '',)),
+                        MaterialPageRoute(
+                          builder: (context) => DashBoardScreen(userId: userId), // Pass the userId
+                        ),
                       );
                     }
                   },

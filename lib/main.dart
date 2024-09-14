@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rentacar/api/firebase_api_notification.dart';
+import 'package:rentacar/api/restful_api.dart';
 import 'package:rentacar/splash_screen.dart';
 
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:   SplashScreen()
+      home:   RestfulApi()
     );
   }
 }
