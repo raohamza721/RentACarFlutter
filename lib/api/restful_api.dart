@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +13,7 @@ class RestfulApi extends StatefulWidget{
 }
 
 class _RestfulApiState extends State<RestfulApi> {
-  List<dynamic> users= [];
+  List<dynamic> photos= [];
 
   @override
   void initState() {
@@ -33,20 +34,16 @@ class _RestfulApiState extends State<RestfulApi> {
 
       body: ListView.builder(
 
-          itemCount: users.length,
+          itemCount: photos.length,
           itemBuilder: (context, index){
-            final user = users[index];
-            final email = user['email'];
-            final name = user['name']['first'];
-            final image = user['picture']['thumbnail'];
+            final user = photos[index];
+            final id = user['id'];
+            final title = user['title'];
+            final thumbnailUrl = user['url'];
             return ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(image
-                ),
-              ) ,
-              title: Text(name),
-              subtitle: Text(email),
+              leading: Image.network(thumbnailUrl) ,
+              title: Text(title.toString()),
+              subtitle: Text(id.toString()),
             );
 
           }
@@ -59,14 +56,17 @@ class _RestfulApiState extends State<RestfulApi> {
 
     print("Data Fetched");
 
-    const url = "https://randomuser.me/api/?results=50";
+
+
+    const url = "https://jsonplaceholder.typicode.com/photos";
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
     final json = jsonDecode(body);
 
     setState(() {
-      users = json ['results'];
+
+      photos = json ;
     });
     print("Data Fetched");
   }

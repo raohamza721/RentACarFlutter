@@ -241,7 +241,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 70),
+                    const SizedBox(height: 90),
+
+
                     FadeInUp(
                       duration: const Duration(milliseconds: 2000),
                       child: InkWell(

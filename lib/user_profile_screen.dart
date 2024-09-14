@@ -9,7 +9,6 @@ import 'dash_board_screen.dart';
 class UserProfileScreen extends StatefulWidget {
 
    final String userId;
-
   const UserProfileScreen({super.key, required this.userId});
 
   @override

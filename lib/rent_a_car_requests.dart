@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:rentacar/dash_board_screen.dart';
 
 class RentACarRequestScreen extends StatelessWidget {
-  const RentACarRequestScreen({Key? key}) : super(key: key);
+  final String userId ;
+  const RentACarRequestScreen({Key? key, required this.userId}) : super(key: key);
 
   Future<QuerySnapshot> _fetchPendingRequests() async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
+    final ownerId = FirebaseAuth.instance.currentUser?.uid;
 
-    // Query to fetch pending requests for the current user's uploaded items
+    // Query to fetch pending requests for the cars owned by the current user
     return await FirebaseFirestore.instance
         .collection('rentalRequests')
-        .where('userId', isEqualTo: userId)
-        .where('status', isEqualTo: 'pending')
+        .where('carOwnerId', isEqualTo: ownerId) // Filter by owner ID
+        .where('status', isEqualTo: 'pending') // Only pending requests
         .get();
   }
+
 
   Future<void> _updateRequestStatus(String requestId, String newStatus) async {
     try {
@@ -35,13 +37,14 @@ class RentACarRequestScreen extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading:  InkWell(onTap: (){
-          
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DashBoardScreen(userId: "userId")));
+
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashBoardScreen(userId: "userId")));
         },child: const Icon( Icons.arrow_back,)),
         title: const Text('Pending Requests'),
       ),

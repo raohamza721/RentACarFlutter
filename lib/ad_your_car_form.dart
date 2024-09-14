@@ -7,7 +7,6 @@ import 'dart:io';
 class AddCarForm extends StatefulWidget {
 
   final String userId;
-
   const AddCarForm({Key? key, required this.userId}) : super(key: key);
 
   @override
@@ -37,7 +36,7 @@ class _AddCarFormState extends State<AddCarForm> {
       try {
         // Create a map to store the car details
         Map<String, dynamic> carData = {
-          'userId': widget.userId,
+          'OwnerUserId': widget.userId,
           'carModel': _carModelController.text,
           'carMake': _carMakeController.text,
           'carYear': _carYearController.text,
@@ -45,7 +44,8 @@ class _AddCarFormState extends State<AddCarForm> {
           'pricePerDay': _pricePerDayController.text,
           'description': _descriptionController.text,
           'imageUrl': '', // Placeholder, update this after uploading the image
-        };
+          'status'  : 'live'
+                  };
 
         // Upload the image to Firebase Storage if an image was selected
         if (_imageFile != null) {
@@ -60,7 +60,7 @@ class _AddCarFormState extends State<AddCarForm> {
         await FirebaseFirestore.instance.collection('carsDetails').add(carData);
 
         // Show a success message and possibly navigate back or clear the form
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Car added successfully!')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Car added successfully!')));
         Navigator.pop(context); // Navigate back after successful submission
       } catch (e) {
         // Handle any errors

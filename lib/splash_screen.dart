@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:rentacar/dash_board_screen.dart';
 import 'package:rentacar/introduction_slides_screen.dart';
 
 class SplashScreen extends StatefulWidget {

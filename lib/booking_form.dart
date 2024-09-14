@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class BookingFormScreen extends StatefulWidget {
   final DocumentSnapshot carData;
 
-  const BookingFormScreen({required this.carData, Key? key}) : super(key: key);
+
+   BookingFormScreen({required this.carData, Key? key}) : super(key: key);
 
   @override
   _BookingFormScreenState createState() => _BookingFormScreenState();
@@ -52,10 +53,13 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final userId = FirebaseAuth.instance.currentUser?.uid;
+        final bookingUserId = FirebaseAuth.instance.currentUser?.uid; // The user who is booking
+        final carOwnerId = widget.carData['OwnerUserId']; // The owner of the car
+
         final bookingData = {
-          'userId': userId,
-          'carId': widget.carData.id,
+          'bookingUserId': bookingUserId, // User who is making the booking
+          'carOwnerId': carOwnerId,       // The owner of the car
+          'carId': widget.carData.id,     // Car ID
           'whereToGo': _whereToGoController.text,
           'whenToGo': '${_selectedDateRange!.start.toLocal()} to ${_selectedDateRange!.end.toLocal()}',
           'days': _selectedDateRange!.duration.inDays.toString(),
@@ -65,18 +69,18 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           'gender': _genderController.text,
           'cnic': _cnicController.text,
           'address': _addressController.text,
-          'status': 'pending',
-
+          'status': 'pending', // Booking status
         };
 
+        // Submit the booking data to Firestore
         await FirebaseFirestore.instance.collection('rentalRequests').add(bookingData);
 
+        // Display success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Booking request submitted successfully!')),
         );
-
-        Navigator.pop(context); // Go back to the previous screen
       } catch (e) {
+        // Handle the error (show a message to the user, etc.)
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to submit booking request: $e')),
         );

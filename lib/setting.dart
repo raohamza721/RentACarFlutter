@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rentacar/pre_login_screen.dart';
 import 'package:rentacar/user_profile_screen.dart';
+
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Setting extends StatefulWidget {
@@ -10,11 +14,54 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  // Function to log out the user
+  Future<void> _logout() async {
+    try {
+      await FirebaseAuth.instance.signOut(); // Sign out the user from Firebase
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => PreLoginScreen()),
+      ); // Navigate to pre-login screen
+    } catch (e) {
+      // Show error message if logout fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to log out: $e')),
+      );
+    }
+  }
+
+  // Function to show the confirmation dialog
+  Future<void> _showLogoutConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog without logging out
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _logout(); // Call the logout function if confirmed
+              },
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: const Text('Setting'),
       ),
       body: SingleChildScrollView(
@@ -39,20 +86,19 @@ class _SettingState extends State<Setting> {
                 ),
               ),
               const SizedBox(height: 20),
-        
+
               // Account Profile List Tile
               ListTile(
                 leading: const Icon(Icons.person),
                 title: const Text('Account Profile'),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
-                  
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const UserProfileScreen(userId: "")));
                 },
               ),
-        
+
               const Divider(),
-        
+
               // Billing List Tile
               ListTile(
                 leading: const Icon(Icons.payment),
@@ -62,9 +108,9 @@ class _SettingState extends State<Setting> {
                   // Navigate to Billing
                 },
               ),
-        
+
               const Divider(),
-        
+
               // Change Password List Tile
               ListTile(
                 leading: const Icon(Icons.lock),
@@ -74,9 +120,9 @@ class _SettingState extends State<Setting> {
                   // Navigate to Change Password
                 },
               ),
-        
+
               const Divider(),
-        
+
               // Notifications List Tile
               ListTile(
                 leading: const Icon(Icons.notifications),
@@ -84,23 +130,22 @@ class _SettingState extends State<Setting> {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
                   // Navigate to Notifications
-        
-        
                 },
               ),
-              const SizedBox(height: 180,),
-        
-        
-            Card(
-        elevation: 10,
-        child: ListTile(tileColor: Colors.black,
-        leading: const Icon(Icons.logout,color: Colors.white,),
-        title: const Center(child: Text('LOGOUT',style: TextStyle(color: Colors.white))),
-        onTap: () {
-        // Navigate to Notifications
-        },
+              const SizedBox(height: 180),
+
+              // Logout Button
+              Card(
+                elevation: 10,
+                child: ListTile(
+                  tileColor: Colors.black,
+                  leading: const Icon(Icons.logout, color: Colors.white),
+                  title: const Center(
+                    child: Text('LOGOUT', style: TextStyle(color: Colors.white)),
+                  ),
+                  onTap: _showLogoutConfirmationDialog, // Show the confirmation dialog when tapped
                 ),
-            ),
+              ),
             ],
           ),
         ),
